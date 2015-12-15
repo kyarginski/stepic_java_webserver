@@ -6,6 +6,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/templates" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -25,5 +26,6 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.3.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.3.0.M0" level="project" />
     <orderEntry type="library" name="Maven: freemarker:freemarker:2.3.6" level="project" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
   </component>
 </module>
