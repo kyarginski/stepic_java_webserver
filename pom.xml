@@ -44,6 +44,12 @@
 
         <resources>
             <resource>
+                <directory>public_html</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </resource>
+            <resource>
                 <directory>src/templates</directory>
                 <includes>
                     <include>page.html</include>
