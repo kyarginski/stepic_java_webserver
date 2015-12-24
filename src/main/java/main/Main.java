@@ -50,8 +50,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        log.info("Server started");
-
         AccountService accountService = new AccountService();
 
         accountService.addNewUser(new UserProfile("admin"));
@@ -72,6 +70,8 @@ public class Main {
 
         Server server = new Server(8080);
         server.setHandler(handlers);
+
+        log.info("Server started");
 
         server.start();
         server.join();    }

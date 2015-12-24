@@ -3,6 +3,7 @@ package servlets;
 import accounts.AccountService;
 import accounts.UserProfile;
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,8 @@ import java.io.IOException;
  * Created by Viktor on 24.12.2015.
  */
 public class SignUpServlet extends HttpServlet {
+
+    private static final Logger log = Logger.getLogger(SignUpServlet.class);
 
     private final AccountService accountService;
 
@@ -31,10 +34,13 @@ public class SignUpServlet extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
 
-        if (login == null || pass == null) {
-            result_text = "Empty user or password are not valid.";
+        if (login == null || login.isEmpty() /* || pass.isEmpty() */) {
+            result_text = "Empty user is not valid.";
             response.getWriter().println(result_text);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+            log.info(result_text);
+
             return;
         }
 
@@ -43,11 +49,13 @@ public class SignUpServlet extends HttpServlet {
             accountService.addNewUser(new UserProfile(login,pass,email));
             result_text = "New user "+login+" has been added.";
         }else{
-            result_text = "User "+login+" has been log in.";
+            result_text = "User "+login+" already exists.";
         }
 
         response.getWriter().println(result_text);
         response.setStatus(HttpServletResponse.SC_OK);
+
+        log.info(result_text);
 
 
 //        UserProfile profile = accountService.getUserByLogin(login);

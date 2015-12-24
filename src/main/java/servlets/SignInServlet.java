@@ -3,6 +3,7 @@ package servlets;
 import accounts.AccountService;
 import accounts.UserProfile;
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,7 @@ import java.io.IOException;
  */
 public class SignInServlet  extends HttpServlet {
 
+    private static final Logger log = Logger.getLogger(SignInServlet.class);
     private final AccountService accountService;
 
     public SignInServlet(AccountService accountService) {
@@ -29,9 +31,13 @@ public class SignInServlet  extends HttpServlet {
         String pass = request.getParameter("pass");
         response.setContentType("text/html;charset=utf-8");
 
-        if (login == null || pass == null) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        log.info("login="+login+"; pass="+pass);
+
+
+        if (login == null || login.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().println(result_text);
+            log.info(result_text);
             return;
         }
 
@@ -40,6 +46,7 @@ public class SignInServlet  extends HttpServlet {
         if (profile == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().println(result_text);
+            log.info(result_text);
             return;
         }
 
@@ -48,9 +55,12 @@ public class SignInServlet  extends HttpServlet {
 //        String json = gson.toJson(profile);
 //        response.getWriter().println(json);
 
+
         result_text = "Authorized";
         response.getWriter().println(result_text);
         response.setStatus(HttpServletResponse.SC_OK);
+
+        log.info(result_text);
 
     }
 
