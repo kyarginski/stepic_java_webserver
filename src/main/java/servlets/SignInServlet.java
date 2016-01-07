@@ -3,6 +3,8 @@ package servlets;
 import accounts.AccountService;
 import accounts.UserProfile;
 import com.google.gson.Gson;
+import dbService.DBException;
+import dbService.dataSets.UsersDataSet;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -41,9 +43,14 @@ public class SignInServlet  extends HttpServlet {
             return;
         }
 
-        UserProfile profile = accountService.getUserByLogin(login);
-//        if (profile == null || !profile.getPass().equals(pass)) {
-        if (profile == null) {
+        UsersDataSet usersDataSet = null;
+        try {
+            usersDataSet = accountService.getUserByLogin(login);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+//        if (usersDataSet == null || !usersDataSet.getPass().equals(pass)) {
+        if (usersDataSet == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().println(result_text);
             log.info(result_text);

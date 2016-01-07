@@ -3,6 +3,8 @@ package servlets;
 import accounts.AccountService;
 import accounts.UserProfile;
 import com.google.gson.Gson;
+import dbService.DBException;
+import dbService.dataSets.UsersDataSet;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -44,10 +46,19 @@ public class SignUpServlet extends HttpServlet {
             return;
         }
 
-        UserProfile profile = accountService.getUserByLogin(login);
-        if (profile == null) {
-            accountService.addNewUser(new UserProfile(login,pass,email));
-            result_text = "New user "+login+" has been added.";
+        UsersDataSet usersDataSet = null;
+        try {
+            usersDataSet = accountService.getUserByLogin(login);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        if (usersDataSet == null) {
+            try {
+                accountService.addNewUser(login,pass,email);
+                result_text = "New user "+login+" has been added.";
+            } catch (DBException e) {
+                log.error(e);
+            }
         }else{
             result_text = "User "+login+" already exists.";
         }
@@ -77,8 +88,8 @@ public class SignUpServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
         String sessionId = request.getSession().getId();
-        UserProfile profile = accountService.getUserBySessionId(sessionId);
-        if (profile == null) {
+        UsersDataSet usersDataSet = accountService.getUserBySessionId(sessionId);
+        if (usersDataSet == null) {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
