@@ -2,9 +2,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Server. Authorization</title>
+    <title>Server. WebSocket Chat</title>
+    <script type="text/javascript">
+        var ws;
+
+        function init() {
+            ws = new WebSocket("ws://localhost:8080/chat");
+            ws.onopen = function (event) {
+
+            }
+            ws.onmessage = function (event) {
+                var $textarea = document.getElementById("messages");
+                $textarea.value = $textarea.value + event.data + "\n";
+            }
+            ws.onclose = function (event) {
+
+            }
+        };
+
+        function sendMessage() {
+            var messageField = document.getElementById("message");
+            var userNameField = document.getElementById("username");
+//            var message = userNameField.value + ":" + messageField.value;
+            var message = messageField.value;
+            ws.send(message);
+            messageField.value = '';
+        }
+    </script>
+    
 </head>
-<body>
+<body onload="init();">
 <p>Server. Authorization</p>
 
 <form method="POST" NAME="theForm" >
@@ -17,5 +44,26 @@
     <input type="button" value="Sign In" onclick="document.theForm.action='/signin'; document.theForm.submit();">
 </FORM>
 </form>
+
+<div id="body">
+    <div id="menu">
+        <p class="welcome">
+            Welcome, <input id="username" value="anonymous"/>
+        </p>
+
+        <div style="clear: both"></div>
+    </div>
+
+    <div id="chatbox">
+        <textarea id="messages" rows="10" cols="50" readonly="readonly"></textarea>
+    </div>
+
+    <form name="message" action="">
+        <input name="usermsg" type="text" id="message" size="40"/>
+        <input type="button" name="submitmsg" value="Send..." onclick="sendMessage();"/>
+    </form>
+</div>
+
+
 </body>
 </html>
