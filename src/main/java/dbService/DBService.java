@@ -2,7 +2,8 @@ package dbService;
 
 import dbService.dao.UsersDAO;
 import dbService.dataSets.UsersDataSet;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
 import java.sql.Connection;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
  */
 public class DBService {
 
-    private static final Logger log = Logger.getLogger(DBService.class);
+    private static final Logger log = LogManager.getLogger(DBService.class);
 
     private final Connection connection;
 

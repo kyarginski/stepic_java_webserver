@@ -5,7 +5,10 @@ import accounts.UserProfile;
 import com.google.gson.Gson;
 import dbService.DBException;
 import dbService.dataSets.UsersDataSet;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +21,8 @@ import java.io.IOException;
  */
 public class SignInServlet  extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger(SignInServlet.class);
+    private static final Logger log = LogManager.getLogger(SignInServlet.class);
+
     private final AccountService accountService;
 
     public SignInServlet(AccountService accountService) {

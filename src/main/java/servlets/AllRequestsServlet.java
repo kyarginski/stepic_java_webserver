@@ -1,6 +1,7 @@
 package servlets;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 public class AllRequestsServlet extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger(AllRequestsServlet.class);
+    private static final Logger log = LogManager.getLogger(AllRequestsServlet.class);
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {

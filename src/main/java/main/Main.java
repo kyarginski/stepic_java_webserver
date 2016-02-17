@@ -6,6 +6,8 @@ import chat.WebSocketChatServlet;
 import dbService.DBException;
 import dbService.DBService;
 import dbService.dataSets.UsersDataSet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -13,8 +15,6 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.*;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 
 /**
@@ -49,7 +49,7 @@ import org.apache.log4j.Logger;
  */
 public class Main {
 
-    private static final Logger log = Logger.getLogger(Main.class);
+    private static final Logger log = LogManager.getLogger(Main.class);
 
 
     public static void main(String[] args) throws Exception {
