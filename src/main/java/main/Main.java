@@ -1,5 +1,9 @@
 package main;
 
+import accountServer.AccountServer;
+import accountServer.AccountServerController;
+import accountServer.AccountServerControllerMBean;
+import accountServer.AccountServerI;
 import accounts.AccountService;
 import accounts.UserProfile;
 import chat.WebSocketChatServlet;
@@ -15,6 +19,10 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import servlets.*;
+
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 
 
 /**
@@ -56,6 +64,8 @@ public class Main {
 
         AccountService accountService = new AccountService();
 
+        AccountServerI accountServer = new AccountServer(10);
+
 //        accountService.addNewUser(new UserProfile("admin"));
 //        accountService.addNewUser(new UserProfile("test"));
 
@@ -67,6 +77,14 @@ public class Main {
         context.addServlet(new ServletHolder(new SignInServlet(accountService)), "/signin");
 
         context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
+
+        context.addServlet(new ServletHolder(new AccountServerServlet(accountServer)), AccountServerServlet.PAGE_URL);
+
+
+        AccountServerControllerMBean serverStatistics = new AccountServerController(accountServer);
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = new ObjectName("Admin:type=AccountServerController.usersLimit");
+        mbs.registerMBean(serverStatistics, name);
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
