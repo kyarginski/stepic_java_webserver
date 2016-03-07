@@ -32,7 +32,8 @@ public class ResourceServerServlet extends HttpServlet {
             logger.info("Нет данных о xml-файле");
         } else {
 
-            resourceServer = new ResourceServer(path_to_resource);
+            resourceServer = ResourceServer.getInstance();
+            resourceServer.setPath(path_to_resource);
             logger.info(resourceServer);
             response.setStatus(HttpServletResponse.SC_OK);
         }

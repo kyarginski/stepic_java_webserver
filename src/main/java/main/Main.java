@@ -69,7 +69,8 @@ public class Main {
 
         AccountServerI accountServer = new AccountServer(10);
 
-        ResourceServer resourceServer = new ResourceServer();
+        //ResourceServer resourceServer = new ResourceServer();
+        ResourceServer resourceServer = ResourceServer.getInstance();
 
 //        accountService.addNewUser(new UserProfile("admin"));
 //        accountService.addNewUser(new UserProfile("test"));

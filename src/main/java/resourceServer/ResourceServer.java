@@ -11,12 +11,20 @@ public class ResourceServer implements ResourceServerI{
     private String name;
     private int age;
 
+    public static class SingletonHolder {
+        public static final ResourceServer HOLDER_INSTANCE = new ResourceServer();
+    }
+
+    public static ResourceServer getInstance() {
+        return SingletonHolder.HOLDER_INSTANCE;
+    }
+
     public ResourceServer() {
         name = "";
         age = 0;
     }
 
-    public ResourceServer(String path) {
+    public void setPath(String path) {
         TestResource resource = (TestResource) ReadXMLFileSAX.readXML(path); //"./resources/testResource.xml");
         if (resource != null) {
             name = resource.getName();
