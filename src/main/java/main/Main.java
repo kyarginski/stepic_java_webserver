@@ -25,8 +25,12 @@ import servlets.*;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.net.ServerSocket;
+import java.net.Socket;
 
+import socketServer.*;
 
 /**
  * @author Victor Kyarginski
@@ -65,6 +69,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+/*
         AccountService accountService = new AccountService();
 
         AccountServerI accountServer = new AccountServer(10);
@@ -112,5 +117,45 @@ public class Main {
         log.info("Server started");
 
         server.start();
-        server.join();    }
+        server.join();
+*/
+
+/*
+Задача:
+Написать серверную часть клиент-серверного приложения на сокетах (не веб сокетах, а обычных сокетах).
+Тестирующее приложение будет имитировать клиентские приложения.
+Сервер должен слушать обращения клиентов на localhost:5050 и отправлять обратно все пришедшие от них сообщения.
+То есть, если клиент присылает "Hello!" ему обратно должно быть отправлено "Hello!".
+
+В процессе тестирования к серверу будут одновременно подключаться 10 клиентов. Каждый клиент будет отправлять по сообщению каждую миллисекунду в течение 5 секунд. Сервер должен отвечать всем клиентам одновременно.
+
+Реализация на основе:
+http://javatutor.net/books/tiej/socket
+
+*/
+
+        ServerSocket s = new ServerSocket(5050);
+        log.info("Server started");
+        System.out.println("Server Started");
+        try {
+            while (true) {
+                // Блокируется до возникновения нового соединения:
+                Socket socket = s.accept();
+                socket.setSoTimeout(30000);
+                try {
+                    log.info("new ServeOneJabber...");
+                    new ServeOneJabber(socket);
+                }
+                catch (IOException e) {
+                    // Если завершится неудачей, закрывается сокет,
+                    // в противном случае, нить закроет его:
+                    socket.close();
+                }
+            }
+        }
+        finally {
+            s.close();
+        }
+
+    }
 }
